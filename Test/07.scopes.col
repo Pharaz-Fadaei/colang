@@ -1,0 +1,39 @@
+//Every variable exists inside a scope. Unless defined inside a specific scope, the variable will be inside the global scope
+
+//A variable that will be defined in the global scope
+var a = 7
+PrintLn("A variable defined in the global scope:")
+PrintLn(a)
+
+//Scopes can be defined using curly braces
+{
+	//Inner scopes can access variables from the outer scopes
+	//Since all scopes are defined inside the global scope, they can use all variables defined inside the global scope;
+	//	Hence those variables are called global variables
+	PrintLn("Calling global variable from inner scope:")
+	PrintLn(a)
+	
+	//Scopes can redefine variables that exist in the outer scope and then changing those variables won't affect
+	//	outer scope variables
+	var a = 10
+	PrintLn("Variable defined inside the inner scope:")
+	PrintLn(a)
+	
+	
+	
+	//Variables defined inside a scope won't be accessible from outer scopes
+	var b = 10
+	PrintLn("A variable that is only defined inside the inner scope:")
+	PrintLn(b)
+}
+
+
+//Variable "a" has remained intact
+PrintLn("Changing a variable defined inside a scope won't change the value of a variable with the same name inside the outer scope:")
+PrintLn(a)
+
+
+
+//Calling variable b that were defined inside the inner scope will lead to an error
+PrintLn("Variable b were defined inside an inner scope hence its not accessible inside the outer scope:")
+PrintLn(b)

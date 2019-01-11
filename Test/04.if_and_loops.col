@@ -1,0 +1,66 @@
+//If conditionals are similar to C or C++
+if(1 == 5)
+	PrintLn("1 == 5")
+
+//Any value except 0 is considered true
+if(1)
+	PrintLn("1 is considered true!")
+if(!0)
+	PrintLn("0 is considered false!")
+	
+PrintLn()
+	
+	
+
+//Loops through numbers 1, 2, ..., 4 however breaks at x = 3
+PrintLn("Range loop:")
+for(var x in 1: 5)
+{
+	if(x == 3)
+		break
+	PrintLn(x);
+}
+PrintLn()
+
+
+//Regular C-style for loop
+//Each section of the three sections of the for-loop may be empty,
+//	all of them being empty, results an infinite loop
+PrintLn("Regular C-style for loop:")
+var y = 10
+for(var y = 0; y <= 5; y=y+1)
+{
+	PrintLn("For2: " + y)
+	y = y + 1
+}
+PrintLn(y)
+
+PrintLn()
+
+
+//Condition section of the while loop may be empty, in that case it may be an infinite loop
+PrintLn("While loop:")
+var x = 5
+while(x > 0)
+{
+	PrintLn("While: " + x);
+	if(x == 3) break
+	x = x - 1
+}
+PrintLn(x)
+
+PrintLn()
+
+
+//Loops can be continued or broken using continue and break keywords respectively
+//	an else block can be used to detect that the loop is not broken, this feature is inspired by Python
+PrintLn("Using braek, contiune keyword with else block:")
+var i
+for(i = 0; i < 5; i = i + 1)
+{
+	if(i == 2) 
+		continue // can also use break to terminate the loop and prevent else block from execution
+	PrintLn("\t" + i)
+}
+else
+	PrintLn("The loop executed completely and didn't break.")

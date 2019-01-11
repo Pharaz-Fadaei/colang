@@ -1,0 +1,3379 @@
+Terminals unused in grammar
+
+   VOID_KEYWORD
+   ARRAY_KEYWORD
+   RIGHT_ARROW
+   DOLLAR
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: blocks
+
+    2 blocks: blocks block
+    3       | block
+
+    4 block: line
+    5      | EOL
+    6      | COMMENT
+
+    7 line: end_line end
+    8     | if_block
+    9     | single_expression
+   10     | loop_block
+   11     | function_definition
+   12     | CURA blocks CURB
+
+   13 function_definition: FUNCTION_KEYWORD ID PARA function_parameters PARB code_block
+   14                    | FUNCTION_KEYWORD ID PARA function_parameters PARB ASSIGNMENT single_expression
+
+   15 function_parameters: parameters
+   16                    | %empty
+
+   17 parameters: parameters COMMA ID
+   18           | ID
+
+   19 code_block: line
+   20           | EOL code_block
+   21           | code_block EOL
+
+   22 end_line: RETURN_KEYWORD expression
+   23         | RETURN_KEYWORD
+   24         | BREAK_KEYWORD
+   25         | CONTINUE_KEYWORD
+
+   26 if_block: IF_KEYWORD PARA expression PARB code_block
+   27         | IF_KEYWORD PARA expression PARB code_block ELSE_KEYWORD code_block
+
+   28 loop_block: for_block
+   29           | foreach_block
+   30           | while_block
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+   33          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+   37              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+   39 while_block: WHILE_KEYWORD PARA nullable_expression PARB code_block
+   40            | WHILE_KEYWORD PARA nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+   41 assignment: ID ASSIGNMENT expression
+   42           | ID BRAA expression BRAB ASSIGNMENT expression
+   43           | ID BRAA BRAB ASSIGNMENT expression
+
+   44 single_expression: expression end
+
+   45 nullable_expression: expression
+   46                    | %empty
+
+   47 expression: MINUS expression
+   48           | expression PLUS expression
+   49           | expression MINUS expression
+   50           | expression ASTERISK expression
+   51           | expression SLASH expression
+   52           | expression PERCENT expression
+   53           | expression DOUBLEASTERISK expression
+   54           | expression EQUAL expression
+   55           | expression NOTEQUAL expression
+   56           | expression MORE expression
+   57           | expression LESS expression
+   58           | expression MEQ expression
+   59           | expression LEQ expression
+   60           | expression AND_KEYWORD expression
+   61           | expression OR_KEYWORD expression
+   62           | EXCLAMATION expression
+   63           | INTEGER
+   64           | FLOAT
+   65           | STRING_LITERAL
+   66           | ID BRAA expression BRAB
+   67           | function_call
+   68           | PARA expression PARB
+   69           | ID
+   70           | variable_definition
+   71           | assignment
+
+   72 variable_definition: VAR_KEYWORD variable_definition_list
+
+   73 variable_definition_list: single_variable_definition
+   74                         | variable_definition_list COMMA single_variable_definition
+
+   75 single_variable_definition: ID ASSIGNMENT expression
+   76                           | ID
+
+   77 function_call: ID PARA arguments PARB
+
+   78 arguments: arguments COMMA expression
+   79          | expression
+   80          | %empty
+
+   81 end: EOL
+   82    | COMMENT
+   83    | SEMICOLON
+   84    | EOF_
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+STRING_LITERAL (258) 65
+IF_KEYWORD (259) 26 27
+ELSE_KEYWORD (260) 27 32 34 36 38 40
+FUNCTION_KEYWORD (261) 13 14
+VOID_KEYWORD (262)
+RETURN_KEYWORD (263) 22 23
+AND_KEYWORD (264) 60
+OR_KEYWORD (265) 61
+WHILE_KEYWORD (266) 39 40
+FOR_KEYWORD (267) 31 32 33 34
+FOREACH_KEYWORD (268) 35 36 37 38
+IN_KEYWORD (269) 33 34 35 36 37 38
+BREAK_KEYWORD (270) 24
+CONTINUE_KEYWORD (271) 25
+VAR_KEYWORD (272) 33 34 35 36 37 38 72
+ARRAY_KEYWORD (273)
+RIGHT_ARROW (274)
+ASSIGNMENT (275) 14 41 42 43 75
+PLUS (276) 48
+MINUS (277) 47 49
+ASTERISK (278) 50
+DOUBLEASTERISK (279) 53
+SLASH (280) 51
+COMMA (281) 17 37 38 74 78
+COLON (282) 33 34
+SEMICOLON (283) 31 32 83
+DOLLAR (284)
+LEQ (285) 59
+MEQ (286) 58
+LESS (287) 57
+MORE (288) 56
+EQUAL (289) 54
+NOTEQUAL (290) 55
+PARA (291) 13 14 26 27 31 32 33 34 35 36 37 38 39 40 68 77
+PARB (292) 13 14 26 27 31 32 33 34 35 36 37 38 39 40 68 77
+BRAA (293) 42 43 66
+BRAB (294) 42 43 66
+CURA (295) 12
+CURB (296) 12
+FLOAT (297) 64
+INTEGER (298) 63
+ID (299) 13 14 17 18 33 34 35 36 37 38 41 42 43 66 69 75 76 77
+EOL (300) 5 20 21 81
+EOF_ (301) 84
+EXCLAMATION (302) 62
+PERCENT (303) 52
+COMMENT (304) 6 82
+NEGATION (305)
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+program (52)
+    on left: 1, on right: 0
+blocks (53)
+    on left: 2 3, on right: 1 2 12
+block (54)
+    on left: 4 5 6, on right: 2 3
+line (55)
+    on left: 7 8 9 10 11 12, on right: 4 19
+function_definition (56)
+    on left: 13 14, on right: 11
+function_parameters (57)
+    on left: 15 16, on right: 13 14
+parameters (58)
+    on left: 17 18, on right: 15 17
+code_block (59)
+    on left: 19 20 21, on right: 13 20 21 26 27 31 32 33 34 35 36 37
+    38 39 40
+end_line (60)
+    on left: 22 23 24 25, on right: 7
+if_block (61)
+    on left: 26 27, on right: 8
+loop_block (62)
+    on left: 28 29 30, on right: 10
+for_block (63)
+    on left: 31 32 33 34, on right: 28
+foreach_block (64)
+    on left: 35 36 37 38, on right: 29
+while_block (65)
+    on left: 39 40, on right: 30
+assignment (66)
+    on left: 41 42 43, on right: 71
+single_expression (67)
+    on left: 44, on right: 9 14
+nullable_expression (68)
+    on left: 45 46, on right: 31 32 39 40
+expression (69)
+    on left: 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64
+    65 66 67 68 69 70 71, on right: 22 26 27 33 34 35 36 37 38 41 42
+    43 44 45 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 66 68
+    75 78 79
+variable_definition (70)
+    on left: 72, on right: 70
+variable_definition_list (71)
+    on left: 73 74, on right: 72 74
+single_variable_definition (72)
+    on left: 75 76, on right: 73 74
+function_call (73)
+    on left: 77, on right: 67
+arguments (74)
+    on left: 78 79 80, on right: 77 78
+end (75)
+    on left: 81 82 83 84, on right: 7 44
+
+
+State 0
+
+    0 $accept: . program $end
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 17
+    EXCLAMATION       shift, and go to state 18
+    COMMENT           shift, and go to state 19
+
+    program              go to state 20
+    blocks               go to state 21
+    block                go to state 22
+    line                 go to state 23
+    function_definition  go to state 24
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 1
+
+   65 expression: STRING_LITERAL .
+
+    $default  reduce using rule 65 (expression)
+
+
+State 2
+
+   26 if_block: IF_KEYWORD . PARA expression PARB code_block
+   27         | IF_KEYWORD . PARA expression PARB code_block ELSE_KEYWORD code_block
+
+    PARA  shift, and go to state 36
+
+
+State 3
+
+   13 function_definition: FUNCTION_KEYWORD . ID PARA function_parameters PARB code_block
+   14                    | FUNCTION_KEYWORD . ID PARA function_parameters PARB ASSIGNMENT single_expression
+
+    ID  shift, and go to state 37
+
+
+State 4
+
+   22 end_line: RETURN_KEYWORD . expression
+   23         | RETURN_KEYWORD .
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 23 (end_line)
+
+    assignment           go to state 31
+    expression           go to state 38
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 5
+
+   39 while_block: WHILE_KEYWORD . PARA nullable_expression PARB code_block
+   40            | WHILE_KEYWORD . PARA nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    PARA  shift, and go to state 39
+
+
+State 6
+
+   31 for_block: FOR_KEYWORD . PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD . PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+   33          | FOR_KEYWORD . PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block
+   34          | FOR_KEYWORD . PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block
+
+    PARA  shift, and go to state 40
+
+
+State 7
+
+   35 foreach_block: FOREACH_KEYWORD . PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block
+   36              | FOREACH_KEYWORD . PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+   37              | FOREACH_KEYWORD . PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD . PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    PARA  shift, and go to state 41
+
+
+State 8
+
+   24 end_line: BREAK_KEYWORD .
+
+    $default  reduce using rule 24 (end_line)
+
+
+State 9
+
+   25 end_line: CONTINUE_KEYWORD .
+
+    $default  reduce using rule 25 (end_line)
+
+
+State 10
+
+   72 variable_definition: VAR_KEYWORD . variable_definition_list
+
+    ID  shift, and go to state 42
+
+    variable_definition_list    go to state 43
+    single_variable_definition  go to state 44
+
+
+State 11
+
+   47 expression: MINUS . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 45
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 12
+
+   68 expression: PARA . expression PARB
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 46
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 13
+
+   12 line: CURA . blocks CURB
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 17
+    EXCLAMATION       shift, and go to state 18
+    COMMENT           shift, and go to state 19
+
+    blocks               go to state 47
+    block                go to state 22
+    line                 go to state 23
+    function_definition  go to state 24
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 14
+
+   64 expression: FLOAT .
+
+    $default  reduce using rule 64 (expression)
+
+
+State 15
+
+   63 expression: INTEGER .
+
+    $default  reduce using rule 63 (expression)
+
+
+State 16
+
+   41 assignment: ID . ASSIGNMENT expression
+   42           | ID . BRAA expression BRAB ASSIGNMENT expression
+   43           | ID . BRAA BRAB ASSIGNMENT expression
+   66 expression: ID . BRAA expression BRAB
+   69           | ID .
+   77 function_call: ID . PARA arguments PARB
+
+    ASSIGNMENT  shift, and go to state 48
+    PARA        shift, and go to state 49
+    BRAA        shift, and go to state 50
+
+    $default  reduce using rule 69 (expression)
+
+
+State 17
+
+    5 block: EOL .
+
+    $default  reduce using rule 5 (block)
+
+
+State 18
+
+   62 expression: EXCLAMATION . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 51
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 19
+
+    6 block: COMMENT .
+
+    $default  reduce using rule 6 (block)
+
+
+State 20
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 52
+
+
+State 21
+
+    1 program: blocks .
+    2 blocks: blocks . block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 17
+    EXCLAMATION       shift, and go to state 18
+    COMMENT           shift, and go to state 19
+
+    $default  reduce using rule 1 (program)
+
+    block                go to state 53
+    line                 go to state 23
+    function_definition  go to state 24
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 22
+
+    3 blocks: block .
+
+    $default  reduce using rule 3 (blocks)
+
+
+State 23
+
+    4 block: line .
+
+    $default  reduce using rule 4 (block)
+
+
+State 24
+
+   11 line: function_definition .
+
+    $default  reduce using rule 11 (line)
+
+
+State 25
+
+    7 line: end_line . end
+
+    SEMICOLON  shift, and go to state 54
+    EOL        shift, and go to state 55
+    EOF_       shift, and go to state 56
+    COMMENT    shift, and go to state 57
+
+    end  go to state 58
+
+
+State 26
+
+    8 line: if_block .
+
+    $default  reduce using rule 8 (line)
+
+
+State 27
+
+   10 line: loop_block .
+
+    $default  reduce using rule 10 (line)
+
+
+State 28
+
+   28 loop_block: for_block .
+
+    $default  reduce using rule 28 (loop_block)
+
+
+State 29
+
+   29 loop_block: foreach_block .
+
+    $default  reduce using rule 29 (loop_block)
+
+
+State 30
+
+   30 loop_block: while_block .
+
+    $default  reduce using rule 30 (loop_block)
+
+
+State 31
+
+   71 expression: assignment .
+
+    $default  reduce using rule 71 (expression)
+
+
+State 32
+
+    9 line: single_expression .
+
+    $default  reduce using rule 9 (line)
+
+
+State 33
+
+   44 single_expression: expression . end
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    SEMICOLON       shift, and go to state 54
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    EOL             shift, and go to state 55
+    EOF_            shift, and go to state 56
+    PERCENT         shift, and go to state 72
+    COMMENT         shift, and go to state 57
+
+    end  go to state 73
+
+
+State 34
+
+   70 expression: variable_definition .
+
+    $default  reduce using rule 70 (expression)
+
+
+State 35
+
+   67 expression: function_call .
+
+    $default  reduce using rule 67 (expression)
+
+
+State 36
+
+   26 if_block: IF_KEYWORD PARA . expression PARB code_block
+   27         | IF_KEYWORD PARA . expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 74
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 37
+
+   13 function_definition: FUNCTION_KEYWORD ID . PARA function_parameters PARB code_block
+   14                    | FUNCTION_KEYWORD ID . PARA function_parameters PARB ASSIGNMENT single_expression
+
+    PARA  shift, and go to state 75
+
+
+State 38
+
+   22 end_line: RETURN_KEYWORD expression .
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 22 (end_line)
+
+
+State 39
+
+   39 while_block: WHILE_KEYWORD PARA . nullable_expression PARB code_block
+   40            | WHILE_KEYWORD PARA . nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 46 (nullable_expression)
+
+    assignment           go to state 31
+    nullable_expression  go to state 76
+    expression           go to state 77
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 40
+
+   31 for_block: FOR_KEYWORD PARA . nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA . nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+   33          | FOR_KEYWORD PARA . VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA . VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 78
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 46 (nullable_expression)
+
+    assignment           go to state 31
+    nullable_expression  go to state 79
+    expression           go to state 77
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 41
+
+   35 foreach_block: FOREACH_KEYWORD PARA . VAR_KEYWORD ID IN_KEYWORD expression PARB code_block
+   36              | FOREACH_KEYWORD PARA . VAR_KEYWORD ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+   37              | FOREACH_KEYWORD PARA . VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA . VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    VAR_KEYWORD  shift, and go to state 80
+
+
+State 42
+
+   75 single_variable_definition: ID . ASSIGNMENT expression
+   76                           | ID .
+
+    ASSIGNMENT  shift, and go to state 81
+
+    $default  reduce using rule 76 (single_variable_definition)
+
+
+State 43
+
+   72 variable_definition: VAR_KEYWORD variable_definition_list .
+   74 variable_definition_list: variable_definition_list . COMMA single_variable_definition
+
+    COMMA  shift, and go to state 82
+
+    $default  reduce using rule 72 (variable_definition)
+
+
+State 44
+
+   73 variable_definition_list: single_variable_definition .
+
+    $default  reduce using rule 73 (variable_definition_list)
+
+
+State 45
+
+   47 expression: MINUS expression .
+   48           | expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    $default  reduce using rule 47 (expression)
+
+
+State 46
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   68           | PARA expression . PARB
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PARB            shift, and go to state 83
+    PERCENT         shift, and go to state 72
+
+
+State 47
+
+    2 blocks: blocks . block
+   12 line: CURA blocks . CURB
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    CURB              shift, and go to state 84
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 17
+    EXCLAMATION       shift, and go to state 18
+    COMMENT           shift, and go to state 19
+
+    block                go to state 53
+    line                 go to state 23
+    function_definition  go to state 24
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 48
+
+   41 assignment: ID ASSIGNMENT . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 85
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 49
+
+   77 function_call: ID PARA . arguments PARB
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 80 (arguments)
+
+    assignment           go to state 31
+    expression           go to state 86
+    variable_definition  go to state 34
+    function_call        go to state 35
+    arguments            go to state 87
+
+
+State 50
+
+   42 assignment: ID BRAA . expression BRAB ASSIGNMENT expression
+   43           | ID BRAA . BRAB ASSIGNMENT expression
+   66 expression: ID BRAA . expression BRAB
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    BRAB            shift, and go to state 88
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 89
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 51
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   62           | EXCLAMATION expression .
+
+    DOUBLEASTERISK  shift, and go to state 64
+
+    $default  reduce using rule 62 (expression)
+
+
+State 52
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 53
+
+    2 blocks: blocks block .
+
+    $default  reduce using rule 2 (blocks)
+
+
+State 54
+
+   83 end: SEMICOLON .
+
+    $default  reduce using rule 83 (end)
+
+
+State 55
+
+   81 end: EOL .
+
+    $default  reduce using rule 81 (end)
+
+
+State 56
+
+   84 end: EOF_ .
+
+    $default  reduce using rule 84 (end)
+
+
+State 57
+
+   82 end: COMMENT .
+
+    $default  reduce using rule 82 (end)
+
+
+State 58
+
+    7 line: end_line end .
+
+    $default  reduce using rule 7 (line)
+
+
+State 59
+
+   60 expression: expression AND_KEYWORD . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 90
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 60
+
+   61 expression: expression OR_KEYWORD . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 91
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 61
+
+   48 expression: expression PLUS . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 92
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 62
+
+   49 expression: expression MINUS . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 93
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 63
+
+   50 expression: expression ASTERISK . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 94
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 64
+
+   53 expression: expression DOUBLEASTERISK . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 95
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 65
+
+   51 expression: expression SLASH . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 96
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 66
+
+   59 expression: expression LEQ . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 97
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 67
+
+   58 expression: expression MEQ . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 98
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 68
+
+   57 expression: expression LESS . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 99
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 69
+
+   56 expression: expression MORE . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 100
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 70
+
+   54 expression: expression EQUAL . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 101
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 71
+
+   55 expression: expression NOTEQUAL . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 102
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 72
+
+   52 expression: expression PERCENT . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 103
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 73
+
+   44 single_expression: expression end .
+
+    $default  reduce using rule 44 (single_expression)
+
+
+State 74
+
+   26 if_block: IF_KEYWORD PARA expression . PARB code_block
+   27         | IF_KEYWORD PARA expression . PARB code_block ELSE_KEYWORD code_block
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PARB            shift, and go to state 104
+    PERCENT         shift, and go to state 72
+
+
+State 75
+
+   13 function_definition: FUNCTION_KEYWORD ID PARA . function_parameters PARB code_block
+   14                    | FUNCTION_KEYWORD ID PARA . function_parameters PARB ASSIGNMENT single_expression
+
+    ID  shift, and go to state 105
+
+    $default  reduce using rule 16 (function_parameters)
+
+    function_parameters  go to state 106
+    parameters           go to state 107
+
+
+State 76
+
+   39 while_block: WHILE_KEYWORD PARA nullable_expression . PARB code_block
+   40            | WHILE_KEYWORD PARA nullable_expression . PARB code_block ELSE_KEYWORD code_block
+
+    PARB  shift, and go to state 108
+
+
+State 77
+
+   45 nullable_expression: expression .
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 45 (nullable_expression)
+
+
+State 78
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD . ID IN_KEYWORD expression COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD . ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block
+   72 variable_definition: VAR_KEYWORD . variable_definition_list
+
+    ID  shift, and go to state 109
+
+    variable_definition_list    go to state 43
+    single_variable_definition  go to state 44
+
+
+State 79
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression . SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression . SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    SEMICOLON  shift, and go to state 110
+
+
+State 80
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD . ID IN_KEYWORD expression PARB code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD . ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+   37              | FOREACH_KEYWORD PARA VAR_KEYWORD . ID COMMA ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD . ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    ID  shift, and go to state 111
+
+
+State 81
+
+   75 single_variable_definition: ID ASSIGNMENT . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 112
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 82
+
+   74 variable_definition_list: variable_definition_list COMMA . single_variable_definition
+
+    ID  shift, and go to state 42
+
+    single_variable_definition  go to state 113
+
+
+State 83
+
+   68 expression: PARA expression PARB .
+
+    $default  reduce using rule 68 (expression)
+
+
+State 84
+
+   12 line: CURA blocks CURB .
+
+    $default  reduce using rule 12 (line)
+
+
+State 85
+
+   41 assignment: ID ASSIGNMENT expression .
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 41 (assignment)
+
+
+State 86
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   79 arguments: expression .
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 79 (arguments)
+
+
+State 87
+
+   77 function_call: ID PARA arguments . PARB
+   78 arguments: arguments . COMMA expression
+
+    COMMA  shift, and go to state 114
+    PARB   shift, and go to state 115
+
+
+State 88
+
+   43 assignment: ID BRAA BRAB . ASSIGNMENT expression
+
+    ASSIGNMENT  shift, and go to state 116
+
+
+State 89
+
+   42 assignment: ID BRAA expression . BRAB ASSIGNMENT expression
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   66           | ID BRAA expression . BRAB
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    BRAB            shift, and go to state 117
+    PERCENT         shift, and go to state 72
+
+
+State 90
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   60           | expression AND_KEYWORD expression .
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 60 (expression)
+
+
+State 91
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   61           | expression OR_KEYWORD expression .
+
+    AND_KEYWORD     shift, and go to state 59
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 61 (expression)
+
+
+State 92
+
+   48 expression: expression . PLUS expression
+   48           | expression PLUS expression .
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 48 (expression)
+
+
+State 93
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   49           | expression MINUS expression .
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 49 (expression)
+
+
+State 94
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   50           | expression ASTERISK expression .
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    DOUBLEASTERISK  shift, and go to state 64
+
+    $default  reduce using rule 50 (expression)
+
+
+State 95
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   53           | expression DOUBLEASTERISK expression .
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    DOUBLEASTERISK  shift, and go to state 64
+
+    $default  reduce using rule 53 (expression)
+
+
+State 96
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   51           | expression SLASH expression .
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+
+    $default  reduce using rule 51 (expression)
+
+
+State 97
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   59           | expression LEQ expression .
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 59 (expression)
+
+
+State 98
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   58           | expression MEQ expression .
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 58 (expression)
+
+
+State 99
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   57           | expression LESS expression .
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 57 (expression)
+
+
+State 100
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   56           | expression MORE expression .
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 56 (expression)
+
+
+State 101
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   54           | expression EQUAL expression .
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 54 (expression)
+
+
+State 102
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   55           | expression NOTEQUAL expression .
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 55 (expression)
+
+
+State 103
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   52           | expression PERCENT expression .
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+
+    $default  reduce using rule 52 (expression)
+
+
+State 104
+
+   26 if_block: IF_KEYWORD PARA expression PARB . code_block
+   27         | IF_KEYWORD PARA expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 120
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 105
+
+   18 parameters: ID .
+
+    $default  reduce using rule 18 (parameters)
+
+
+State 106
+
+   13 function_definition: FUNCTION_KEYWORD ID PARA function_parameters . PARB code_block
+   14                    | FUNCTION_KEYWORD ID PARA function_parameters . PARB ASSIGNMENT single_expression
+
+    PARB  shift, and go to state 121
+
+
+State 107
+
+   15 function_parameters: parameters .
+   17 parameters: parameters . COMMA ID
+
+    COMMA  shift, and go to state 122
+
+    $default  reduce using rule 15 (function_parameters)
+
+
+State 108
+
+   39 while_block: WHILE_KEYWORD PARA nullable_expression PARB . code_block
+   40            | WHILE_KEYWORD PARA nullable_expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 123
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 109
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID . IN_KEYWORD expression COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID . IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block
+   75 single_variable_definition: ID . ASSIGNMENT expression
+   76                           | ID .
+
+    IN_KEYWORD  shift, and go to state 124
+    ASSIGNMENT  shift, and go to state 81
+
+    $default  reduce using rule 76 (single_variable_definition)
+
+
+State 110
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON . nullable_expression SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON . nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 46 (nullable_expression)
+
+    assignment           go to state 31
+    nullable_expression  go to state 125
+    expression           go to state 77
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 111
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID . IN_KEYWORD expression PARB code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID . IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+   37              | FOREACH_KEYWORD PARA VAR_KEYWORD ID . COMMA ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID . COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    IN_KEYWORD  shift, and go to state 126
+    COMMA       shift, and go to state 127
+
+
+State 112
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   75 single_variable_definition: ID ASSIGNMENT expression .
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 75 (single_variable_definition)
+
+
+State 113
+
+   74 variable_definition_list: variable_definition_list COMMA single_variable_definition .
+
+    $default  reduce using rule 74 (variable_definition_list)
+
+
+State 114
+
+   78 arguments: arguments COMMA . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 128
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 115
+
+   77 function_call: ID PARA arguments PARB .
+
+    $default  reduce using rule 77 (function_call)
+
+
+State 116
+
+   43 assignment: ID BRAA BRAB ASSIGNMENT . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 129
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 117
+
+   42 assignment: ID BRAA expression BRAB . ASSIGNMENT expression
+   66 expression: ID BRAA expression BRAB .
+
+    ASSIGNMENT  shift, and go to state 130
+
+    $default  reduce using rule 66 (expression)
+
+
+State 118
+
+   20 code_block: EOL . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 131
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 119
+
+   19 code_block: line .
+
+    $default  reduce using rule 19 (code_block)
+
+
+State 120
+
+   21 code_block: code_block . EOL
+   26 if_block: IF_KEYWORD PARA expression PARB code_block .
+   27         | IF_KEYWORD PARA expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 132
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 26 (if_block)
+
+
+State 121
+
+   13 function_definition: FUNCTION_KEYWORD ID PARA function_parameters PARB . code_block
+   14                    | FUNCTION_KEYWORD ID PARA function_parameters PARB . ASSIGNMENT single_expression
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    ASSIGNMENT        shift, and go to state 134
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 135
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 122
+
+   17 parameters: parameters COMMA . ID
+
+    ID  shift, and go to state 136
+
+
+State 123
+
+   21 code_block: code_block . EOL
+   39 while_block: WHILE_KEYWORD PARA nullable_expression PARB code_block .
+   40            | WHILE_KEYWORD PARA nullable_expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 137
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 39 (while_block)
+
+
+State 124
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD . expression COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD . expression COLON expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 138
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 125
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression . SEMICOLON nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression . SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    SEMICOLON  shift, and go to state 139
+
+
+State 126
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD . expression PARB code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD . expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 140
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 127
+
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA . ID IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA . ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    ID  shift, and go to state 141
+
+
+State 128
+
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+   78 arguments: arguments COMMA expression .
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 78 (arguments)
+
+
+State 129
+
+   43 assignment: ID BRAA BRAB ASSIGNMENT expression .
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 43 (assignment)
+
+
+State 130
+
+   42 assignment: ID BRAA expression BRAB ASSIGNMENT . expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 142
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 131
+
+   20 code_block: EOL code_block .
+   21           | code_block . EOL
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 20 (code_block)
+
+
+State 132
+
+   27 if_block: IF_KEYWORD PARA expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 143
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 133
+
+   21 code_block: code_block EOL .
+
+    $default  reduce using rule 21 (code_block)
+
+
+State 134
+
+   14 function_definition: FUNCTION_KEYWORD ID PARA function_parameters PARB ASSIGNMENT . single_expression
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    single_expression    go to state 144
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 135
+
+   13 function_definition: FUNCTION_KEYWORD ID PARA function_parameters PARB code_block .
+   21 code_block: code_block . EOL
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 13 (function_definition)
+
+
+State 136
+
+   17 parameters: parameters COMMA ID .
+
+    $default  reduce using rule 17 (parameters)
+
+
+State 137
+
+   40 while_block: WHILE_KEYWORD PARA nullable_expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 145
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 138
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression . COLON expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression . COLON expression PARB code_block ELSE_KEYWORD code_block
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    COLON           shift, and go to state 146
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+
+State 139
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON . nullable_expression PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON . nullable_expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    $default  reduce using rule 46 (nullable_expression)
+
+    assignment           go to state 31
+    nullable_expression  go to state 147
+    expression           go to state 77
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 140
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression . PARB code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression . PARB code_block ELSE_KEYWORD code_block
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PARB            shift, and go to state 148
+    PERCENT         shift, and go to state 72
+
+
+State 141
+
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID . IN_KEYWORD expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID . IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block
+
+    IN_KEYWORD  shift, and go to state 149
+
+
+State 142
+
+   42 assignment: ID BRAA expression BRAB ASSIGNMENT expression .
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PERCENT         shift, and go to state 72
+
+    $default  reduce using rule 42 (assignment)
+
+
+State 143
+
+   21 code_block: code_block . EOL
+   27 if_block: IF_KEYWORD PARA expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 27 (if_block)
+
+
+State 144
+
+   14 function_definition: FUNCTION_KEYWORD ID PARA function_parameters PARB ASSIGNMENT single_expression .
+
+    $default  reduce using rule 14 (function_definition)
+
+
+State 145
+
+   21 code_block: code_block . EOL
+   40 while_block: WHILE_KEYWORD PARA nullable_expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 40 (while_block)
+
+
+State 146
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON . expression PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON . expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 150
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 147
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression . PARB code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression . PARB code_block ELSE_KEYWORD code_block
+
+    PARB  shift, and go to state 151
+
+
+State 148
+
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB . code_block
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 152
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 149
+
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD . expression PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD . expression PARB code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL  shift, and go to state 1
+    VAR_KEYWORD     shift, and go to state 10
+    MINUS           shift, and go to state 11
+    PARA            shift, and go to state 12
+    FLOAT           shift, and go to state 14
+    INTEGER         shift, and go to state 15
+    ID              shift, and go to state 16
+    EXCLAMATION     shift, and go to state 18
+
+    assignment           go to state 31
+    expression           go to state 153
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 150
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression . PARB code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression . PARB code_block ELSE_KEYWORD code_block
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PARB            shift, and go to state 154
+    PERCENT         shift, and go to state 72
+
+
+State 151
+
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB . code_block
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 155
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 152
+
+   21 code_block: code_block . EOL
+   35 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block .
+   36              | FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 156
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 35 (foreach_block)
+
+
+State 153
+
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression . PARB code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression . PARB code_block ELSE_KEYWORD code_block
+   48 expression: expression . PLUS expression
+   49           | expression . MINUS expression
+   50           | expression . ASTERISK expression
+   51           | expression . SLASH expression
+   52           | expression . PERCENT expression
+   53           | expression . DOUBLEASTERISK expression
+   54           | expression . EQUAL expression
+   55           | expression . NOTEQUAL expression
+   56           | expression . MORE expression
+   57           | expression . LESS expression
+   58           | expression . MEQ expression
+   59           | expression . LEQ expression
+   60           | expression . AND_KEYWORD expression
+   61           | expression . OR_KEYWORD expression
+
+    AND_KEYWORD     shift, and go to state 59
+    OR_KEYWORD      shift, and go to state 60
+    PLUS            shift, and go to state 61
+    MINUS           shift, and go to state 62
+    ASTERISK        shift, and go to state 63
+    DOUBLEASTERISK  shift, and go to state 64
+    SLASH           shift, and go to state 65
+    LEQ             shift, and go to state 66
+    MEQ             shift, and go to state 67
+    LESS            shift, and go to state 68
+    MORE            shift, and go to state 69
+    EQUAL           shift, and go to state 70
+    NOTEQUAL        shift, and go to state 71
+    PARB            shift, and go to state 157
+    PERCENT         shift, and go to state 72
+
+
+State 154
+
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB . code_block
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 158
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 155
+
+   21 code_block: code_block . EOL
+   31 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block .
+   32          | FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 159
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 31 (for_block)
+
+
+State 156
+
+   36 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 160
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 157
+
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB . code_block
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB . code_block ELSE_KEYWORD code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 161
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 158
+
+   21 code_block: code_block . EOL
+   33 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block .
+   34          | FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 162
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 33 (for_block)
+
+
+State 159
+
+   32 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 163
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 160
+
+   21 code_block: code_block . EOL
+   36 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 36 (foreach_block)
+
+
+State 161
+
+   21 code_block: code_block . EOL
+   37 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block .
+   38              | FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block . ELSE_KEYWORD code_block
+
+    ELSE_KEYWORD  shift, and go to state 164
+    EOL           shift, and go to state 133
+
+    $default  reduce using rule 37 (foreach_block)
+
+
+State 162
+
+   34 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 165
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 163
+
+   21 code_block: code_block . EOL
+   32 for_block: FOR_KEYWORD PARA nullable_expression SEMICOLON nullable_expression SEMICOLON nullable_expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 32 (for_block)
+
+
+State 164
+
+   38 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD . code_block
+
+    STRING_LITERAL    shift, and go to state 1
+    IF_KEYWORD        shift, and go to state 2
+    FUNCTION_KEYWORD  shift, and go to state 3
+    RETURN_KEYWORD    shift, and go to state 4
+    WHILE_KEYWORD     shift, and go to state 5
+    FOR_KEYWORD       shift, and go to state 6
+    FOREACH_KEYWORD   shift, and go to state 7
+    BREAK_KEYWORD     shift, and go to state 8
+    CONTINUE_KEYWORD  shift, and go to state 9
+    VAR_KEYWORD       shift, and go to state 10
+    MINUS             shift, and go to state 11
+    PARA              shift, and go to state 12
+    CURA              shift, and go to state 13
+    FLOAT             shift, and go to state 14
+    INTEGER           shift, and go to state 15
+    ID                shift, and go to state 16
+    EOL               shift, and go to state 118
+    EXCLAMATION       shift, and go to state 18
+
+    line                 go to state 119
+    function_definition  go to state 24
+    code_block           go to state 166
+    end_line             go to state 25
+    if_block             go to state 26
+    loop_block           go to state 27
+    for_block            go to state 28
+    foreach_block        go to state 29
+    while_block          go to state 30
+    assignment           go to state 31
+    single_expression    go to state 32
+    expression           go to state 33
+    variable_definition  go to state 34
+    function_call        go to state 35
+
+
+State 165
+
+   21 code_block: code_block . EOL
+   34 for_block: FOR_KEYWORD PARA VAR_KEYWORD ID IN_KEYWORD expression COLON expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 34 (for_block)
+
+
+State 166
+
+   21 code_block: code_block . EOL
+   38 foreach_block: FOREACH_KEYWORD PARA VAR_KEYWORD ID COMMA ID IN_KEYWORD expression PARB code_block ELSE_KEYWORD code_block .
+
+    EOL  shift, and go to state 133
+
+    $default  reduce using rule 38 (foreach_block)

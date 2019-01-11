@@ -1,0 +1,74 @@
+//Functions can be C-Style but instead of return type function keyword must be used,
+//	and parameters don't need to have a type or var keyword
+
+//A void function
+function HelloWorld()
+{
+	PrintLn("Hello World!")
+}
+HelloWorld()
+
+
+//Function bodies can be defined in three ways:
+
+//Using curly braces
+function SomeFunc1(a)
+{
+	return a ** 3
+}
+
+//Without curly braces and a single expression
+function SomeFunc2(a)
+	return a - 1
+
+
+//One-Line function using equals sign and a single expression that will be returned automatically
+function SomeFunc3(a) = a / 2;
+
+
+PrintLn(SomeFunc1(2))
+PrintLn(SomeFunc2(10))
+PrintLn(SomeFunc3(20))
+
+
+
+
+
+
+
+//Functions may have any number of arguments and obviously be defined in any of the three ways explained above 
+function Power(a, b) = a ** b
+PrintLn(Power(2, 3))
+
+
+
+//Functions may be recursive and return keyword can stop execution of the function anywhere
+function RecursiveFunc1(a)
+{
+	if(a == 0)
+		return
+	PrintLn(a)
+	RecursiveFunc1(a - 1)
+}
+
+PrintLn("Recursive function:")
+RecursiveFunc1(5)
+
+
+
+
+//Recursive functions may also use global variables, more on global variables in 07.scopes.col
+PrintLn("Recursive function and a global variable:")
+var temp = 3
+function RecursiveFunc2()
+{
+	if(temp > 0)
+	{
+		PrintLn("Hi")
+		temp = temp - 1
+		RecursiveFunc2()
+	}
+	return temp
+}
+RecursiveFunc2()
+

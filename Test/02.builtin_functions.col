@@ -1,0 +1,143 @@
+//Print functions:
+
+//Print(data):
+//	Prints [data] to the screen, [data] can be of any type, it will be converted to string
+
+Print("Simple use of print")
+Print(".")
+//New line can be printed using /n character
+Print("\nNew line")
+
+
+//PrintLine(data?) or PrintLn(data?):
+//	Both functions are the same, they have same functionality as the Print function and additionally print a new line after the output,
+//	if [data] is not passed they will print only a new line
+
+PrintLn()
+PrintLn("New line will be printed automatically")
+
+
+
+
+
+
+//Input functions:
+//	There are 3 functions to read data from input, each for a different type of data
+//	ReadInt(), ReadDouble(), ReadString(), ReadLine()
+//	Note: ReadString reads only a string without spaces, if you need to read a whole line you have to use ReadLine()
+
+PrintLn("Enter an integer:")
+var int = ReadInt()
+Print("number + 5 = ")
+PrintLn(int + 5)
+
+PrintLn("Enter a float number:")
+var double = ReadDouble()
+Print("number + 2.5 = ")
+PrintLn(double + 2.5)
+
+PrintLn("Enter a string without spaces: ")
+var string = ReadString()
+PrintLn("\"" + string + "\"" + " from colang!")
+
+PrintLn("Enter a string with spaces: ")
+var line = ReadLine()
+PrintLn("\"" + line + "\"" + " from colang!")
+
+
+
+
+
+
+//Array functions:
+
+//Array(number?):
+//	Returns an array with [number] elemens, if [number] is not passed it will return an empty array
+var arr = Array(5)
+
+
+//Add(arr, value):
+//	Adds [value] at the end of [arr], please note that since [arr] is passed by reference here, it should be a direct call to an array
+Add(arr, "Pharaz")
+
+//Count(array)
+//	Returns the number elements inside the [array]
+PrintLn(Count(arr))
+
+//Dictionary Functions:
+
+//ContainsKey(dictionary, key):
+//	Return 1 if [key] is a key in [dictionary], 0 otherwise
+var dict
+dict["key"] = "value"
+dict["name"] = "Pharaz"
+
+Print("Checking if \"name\" is a key in the dictionary: ")
+PrintLn(ContainsKey(dict, "name"))
+
+
+
+//GetKeys(dictionary):
+//	Returns an array containing keys of [dictionary]
+PrintLn("Keys of the dictionary:")
+PrintLn(GetKeys(dict))
+
+
+
+
+
+//Managing variables:
+
+//Clear(var):
+//	Clears value of [var], but doesn't delete it
+Clear(arr)
+PrintLn("Number of elements inside arr after clear: " + Count(arr))
+
+//Delete(var):
+//	Deletes [var] from current scope, [var] can't be used anymore
+Delete(arr)
+//PrintLn(arr) leads to an error
+
+
+
+
+//Data conversion functions:
+
+//ToInt([data]):
+//	Converts [data] to integer, [data] can be an integer, a double or a string
+PrintLn("Using ToInt function: ")
+Print(ToInt("5") + 5)
+Print(", ")
+Print(ToInt(5.5) + 5)
+PrintLn()
+
+//ToDouble([data])
+//	Converts [data] to double, [data] can be a double, an integer or a string
+//	However, it is not required to convert an integer to double, because the integer number would be casted if needed
+PrintLn("Using ToDouble function")
+PrintLn(ToDouble("2.5") + 2.5)
+
+//ToString([data])
+//	Converts [data] to string, [data] can be a string, an integer, a double or an array
+PrintLn("Using ToString function: ")
+Print(ToString(1) + 5)
+Print(", ")
+Print(ToString(2.5) + 5)
+PrintLn()
+Print("To string for an array: " + ToString(dict))
+PrintLn()
+
+
+
+
+
+
+//FormatString(str, args...)
+//	Uses [args...] to format [str]
+
+PrintLn("Using FormatString: ")
+var str = FormatString("First: {0}, second: {1}, new line: \n first: {1}", 1, "SecondValue")
+PrintLn(str)
+
+
+

@@ -1,0 +1,8 @@
+function fib(x){
+	if(x == 0 || x == 1)
+		return x
+	return fib(x - 1) + fib(x - 2)
+}
+
+for(var x in 0: 10)
+	PrintLn(fib(x))

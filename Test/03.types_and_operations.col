@@ -1,0 +1,97 @@
+//Colang has 4 different data types: integer, double, string, array
+//	Initially I had plans to implement boolean data type but eventually, I decided to use integers 0 and 1 instead of boolean false and true values
+var a = 5
+var b = 2.5
+//	String value will be inside double quotation. Just like C or C++ to escape characters you should add a backlash symbol before them 
+var c = "Pharaz\\F"
+var d
+d["name"] = "Pharaz"
+
+PrintLn(a)
+PrintLn(b)
+PrintLn(c)
+PrintLn(d)
+
+
+
+//Operations
+
+
+//Addition:
+// integer + integer: Unsurprisingly, two integers will be added
+// double + double: Two doubles will be added!
+// string + string: Two string will be appended
+// array1 + array2: elements of [array2] will be added to end of [array1]
+
+// double + integer or integer + dobule:
+//		[integer] wil be casted to double first and then added to [double]
+// integer + string or string + integer:
+//		[integer] will be converted to string first and then appended to [string] in the given order
+// double + string or string + double:
+//		[double] will be converted to string first and then appended to [string] in the given order
+PrintLn(8 + 8)
+
+
+
+
+
+//Subtraction:
+// integer1 - integer2: [integer2] will be subtracted from [integer1]
+// double1 - double2: [double2] will be subtracted from [double1]
+// integer - double or double - integer:
+//		[integer] will casted to double first and then [double1] - [double2] will be returned
+PrintLn(32 - 16)
+
+
+
+
+
+//Multiplication:
+// integer * integer: The product of two integers will be returned
+// double1 * double2: The product of two double will be returned
+// integer * double or double * integer:
+//		[integer] will be casted to double and then [double] * [double] will be returned
+PrintLn(4 * 4)
+
+
+
+
+
+//Division:
+//	double1 / double2: 
+//		If [double2] is 0, error will be shown. double1 will divided by double2
+//	integer1 / integer2:
+//		Integers will be casted to double and then [double1] / [double2] will be returned
+//	double / integer or integer / double:
+//		[integer] will be casted to double and then [double1] / [double2] will be returned
+PrintLn(256 / 16)
+
+
+
+
+
+//Modulo:
+//	integer1 % integer2:
+//		If [integer2] is 0, error will be shown. Remainder of [integer1] divided by [integer2] will be returned
+PrintLn(1040 % 32)
+
+
+
+
+
+//Exponentiation:
+// 	double1 ** double2:
+//		[double1] will be raised to [double2] power
+//	integer ** double or double ** integer or integer1 ** integer2:
+//		Integers will be casted to double first and then [double1] ** [double2] will be returned
+PrintLn(4 ** 2)
+
+
+
+
+
+
+//Logical operations:
+// Operators <, >, <=, >=, ==, !=, !, ||, &&  all work as in C or C++ language and will return 1(integral value) if the result is true, 0(integral value) otherwise
+// Operators or, and are aliases for ||, && respectively
+// Note: For comparing two variables, types of variables should match.

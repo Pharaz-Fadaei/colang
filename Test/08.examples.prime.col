@@ -1,0 +1,38 @@
+function IsPrime(n)
+{
+	var ans = 1
+	for(var i in 2: n)
+	{
+		if((n % i) == 0)
+		{
+			ans = 0
+			PrintLn(i)
+			break
+		}
+	}
+	return ans
+}
+function IsPrime1(n)
+{
+	for(var i in 2: n)
+	{
+		if((n % i) == 0)
+			break
+	}
+	else
+		return 1
+	return 0
+}
+
+for(;;)
+{
+	PrintLn("Enter a number to check for primeness (Enter a negative number to exit):")
+	var x = ReadInt()
+	if(x < 0)
+		break
+	var ans = IsPrime1(x)
+	if(ans == 1)
+		PrintLn("Yes")
+	else
+		PrintLn("No")
+}

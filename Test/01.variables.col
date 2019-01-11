@@ -1,0 +1,39 @@
+//Defining a variable
+var my_variable
+//Assigning a value
+my_variable = 5
+
+//Printing a variable, more on built-in functions in 02.builtin_functions.col
+PrintLn(my_variable)
+
+//Redefining a variable leads to an error, however if the variable is deleted it is valid to redefine it
+//var my_variable
+
+//Deleting a variable
+Delete(my_variable)
+
+//Using a deleted variable leads to an error
+//PrintLn(my_variable)
+//var variable2 = my_variable
+
+//Defining and assigning at the same time
+var my_variable = 10
+
+//Printing a variable
+PrintLn(my_variable)
+
+
+//Some uses of variables
+var x = 5
+var y = "Hello"
+var z = x + y
+var k = z + (x + 2.3)
+var a = "5" + 3
+var b = ToInt("5") + 3
+
+PrintLn(x)
+PrintLn(y)
+PrintLn(z)
+PrintLn(k)
+PrintLn(a)
+PrintLn(b)

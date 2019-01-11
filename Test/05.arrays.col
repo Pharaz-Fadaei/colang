@@ -1,0 +1,67 @@
+var arr
+Add(arr, "Hello", "1")
+PrintLn(arr)
+PrintLn("Array arr with 2 elements. \n" + ToString(arr))
+Delete(arr[1])
+PrintLn("The same array after removing the second element: \n" + ToString(arr))
+PrintLn("Length of the array: " + Count(arr))
+Delete(arr)
+
+var dict
+dict["key"] = "value"
+dict["name"] = "Pharaz"
+PrintLn("A dictionary with 2 elements:")
+PrintLn(dict)
+
+PrintLn("Length of the doctionary:")
+PrintLn(Count(dict))
+
+
+var keys = GetKeys(dict)
+PrintLn("Keys of the dictionary:")
+PrintLn(keys)
+
+PrintLn("Checking if \"name\" key exists in the dictionary:")
+PrintLn(ContainsKey(dict, "name"))
+PrintLn("Checking if \"age\" key exists in the dictionary:")
+PrintLn(ContainsKey(dict, "age"))
+
+
+Delete(dict["name"])
+PrintLn("Contents of the dictionary after removing an element by key:")
+PrintLn(dict)
+Delete(dict)
+
+PrintLn("Iterating through the dictionary :")
+PrintLn("\tUsing builtin foreach loop:")
+
+var arr
+Add(arr, "Hello", "1")
+var dict
+dict["key"] = "value"
+dict["name"] = "Pharaz"
+
+Print("\t\t")
+foreach(var v in arr)
+	Print(v + ", ")
+PrintLn()
+
+
+PrintLn("\tIndexed foreach loop on an array:")
+Print("\t\t")
+foreach(var index, value in arr)
+	Print(index + ": " + value + ", ")
+PrintLn()
+
+PrintLn("\tForeach loop on a dictionary:")
+Print("\t\t")
+foreach(var key, value in dict)
+	Print(key + " => " + value + ", ")
+PrintLn()
+
+PrintLn("Using simple for loop:")
+var count = Count(arr)
+Print("\t\t")
+for(var i = 0; i < count; i = i + 1)
+	Print(arr[i] + ", ")
+PrintLn()
